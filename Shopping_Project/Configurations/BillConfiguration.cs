@@ -14,6 +14,8 @@ namespace Shopping_Project.Configurations
             builder.Property(p=>p.Status).HasColumnType("int").
                 IsRequired(); // int not null
             builder.Property(p => p.CreateDate).HasColumnType("Datetime");
+            builder.HasOne(p => p.User).WithMany(p => p.Bills).
+                HasForeignKey(p => p.UserId);
         }
     }
 }

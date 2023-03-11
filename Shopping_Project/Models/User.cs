@@ -9,6 +9,7 @@
         public int Status { get; set; }
         public virtual Cart Cart { get; set; }
         public virtual ICollection<BIll> Bills { get;set; }
+        public virtual Role Role { get; set; }
 
     }
 }
