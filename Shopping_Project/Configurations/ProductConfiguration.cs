@@ -10,11 +10,12 @@ namespace Shopping_Project.Configurations
             builder.HasKey(p=>p.Id);
             builder.Property(p => p.Name).
                 HasColumnType("nvarchar(100)");
-            builder.Property(p => p.BillDetail).IsUnicode(true).
-                IsFixedLength().HasMaxLength(100); // nvarchar(100)
+            // nvarchar(100)
             // nchar(100) vs nvarchar(100)
             builder.Property(p => p.Description).
                 HasColumnType("nvarchar(100)");
+            builder.Property(p => p.Supplier).HasMaxLength(100).
+                IsUnicode(true).IsFixedLength();
         }
     }
 }

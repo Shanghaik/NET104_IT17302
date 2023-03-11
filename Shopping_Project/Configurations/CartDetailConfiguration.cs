@@ -8,7 +8,7 @@ namespace Shopping_Project.Configurations
         public void Configure(EntityTypeBuilder<CartDetail> builder)
         {
             builder.HasKey(x => x.Id);
-            builder.HasOne(p=>p.Product).WithMany(p=>p.CartDetail).
+            builder.HasOne(p=>p.Product).WithMany(p=>p.CartDetails).
                 HasForeignKey(p=>p.IdSP);
             builder.HasOne(p => p.Cart).WithMany(p => p.CartDetails).
                 HasForeignKey(p => p.UserId);

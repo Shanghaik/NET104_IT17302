@@ -14,7 +14,7 @@ namespace Shopping_Project.Configurations
                 HasForeignKey(k => k.IdHD).HasConstraintName("FK_HD");
             //builder.HasOne<Product>().WithMany()
             //    .HasForeignKey(p => p.IdSP);
-            builder.HasOne(p => p.Product).WithMany(x => x.BillDetail).
+            builder.HasOne(p => p.Product).WithMany().
                 HasForeignKey(k => k.IdSP).HasConstraintName("FK_SP");
         }
     }
