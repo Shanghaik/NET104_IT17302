@@ -76,7 +76,6 @@ namespace Shopping_Project.Controllers
             }
             else return BadRequest();
         }
-
         public IActionResult Delete(Guid id)
         {
             if (productServices.DeleteProduct(id))
@@ -84,6 +83,25 @@ namespace Shopping_Project.Controllers
                 return RedirectToAction("ShowAllProducts");
             }
             else return BadRequest();
+        }
+
+        public IActionResult Details(Guid id)
+        {
+            var products = productServices.GetProductById(id);  
+            return View(products);  
+        }
+        [HttpGet]
+        public IActionResult Edit(Guid id)
+        {
+            Product p = productServices.GetProductById(id);
+            return View(p);  
+        }
+
+        public IActionResult Edit(Product p)
+        {
+            if (productServices.UpdateProduct(p))
+                return RedirectToAction("ShowAllProducts");
+            return BadRequest();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
