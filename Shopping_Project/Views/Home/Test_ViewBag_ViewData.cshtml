@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Test_ViewBag_ViewData";
     var listProduct = ViewData["Products"] as List<Product>;
+    var listBag = ViewBag.Products as List<Product>;
 }
 
 <h1>Test_ViewBag_ViewData</h1>
@@ -38,7 +39,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in listProduct)
+        @foreach (var item in listBag)
         {
         <tr>
             <td>
