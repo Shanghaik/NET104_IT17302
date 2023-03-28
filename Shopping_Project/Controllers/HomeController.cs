@@ -120,6 +120,18 @@ namespace Shopping_Project.Controllers
             // ViewBag - ViewData chỉ dùng được trong phạm vi của View đó
             return View();
         }
+        public IActionResult SessionTest()
+        {
+            // Session - phiên làm việc, khi dữ liệu được đẩy vào Session
+            // thì dữ liệu này sẽ tồn tại cho đến khi phiên làm việc kết thúc
+            string message = "Chúng ta đang có kèo import được cookies 1 triệu";
+            // Truyền một string data vào session
+            HttpContext.Session.SetString("thongbao", message);
+            // Lấy data từ Session để sử dụng
+            var data = HttpContext.Session.GetString("thongbao");
+            ViewData["message"] = data; 
+            return View();
+        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
