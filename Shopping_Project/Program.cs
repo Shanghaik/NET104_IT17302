@@ -19,8 +19,11 @@ builder.Services.AddTransient<IProductServices, ProductServices>();
  * các yêu cầu phía sau sẽ được nhận cùng 1 đối tượng services đó. Phù hợp cho 
  * các services có tính toàn cục và không thay đổi thường xuyên.
  */
-
-
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(20);
+});
+// Sử dụng Session với thời gian timeout là 20 giây
 var app = builder.Build(); //Build cuối cùng
 
 // Configure the HTTP request pipeline.
@@ -33,7 +36,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseSession(); // thêm
 app.UseRouting();
 
 app.UseAuthorization();

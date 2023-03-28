@@ -23,6 +23,12 @@ namespace Shopping_Project.Controllers
 
         public IActionResult Privacy()
         {
+            var data = HttpContext.Session.GetString("thongbao");
+            if(data == null)
+            {
+                ViewData["message"] = "Session không tồn tại hoặc đã timeout";
+            }else 
+            ViewData["message"] = data;
             return View();
         }
 
@@ -130,6 +136,14 @@ namespace Shopping_Project.Controllers
             // Lấy data từ Session để sử dụng
             var data = HttpContext.Session.GetString("thongbao");
             ViewData["message"] = data; 
+            // Nguyên tắc tính thời gian timeout của Session
+            // Khi chúng ta đã có dữ liệu trong Session thì bộ đếm thời gian 
+            // sẽ được kích hoạt ngay khi request cuối cùng được thực thi
+            // Nếu sau khoảng thời gian giới hạn timeout mà không có thêm
+            // requets nào được thực hiện thì session sẽ bị xóa
+            // Nếu trước thời điểm timeout, có 1 requets nào đó được thực thi
+            // thì bộ đếm sẽ được reset
+
             return View();
         }
 
