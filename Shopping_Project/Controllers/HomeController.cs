@@ -44,10 +44,10 @@ namespace Shopping_Project.Controllers
             Product product = new Product()
             {
                 Id = Guid.NewGuid(),
-                Name = "Học lại", 
+                Name = "Học lại",
                 AvailableQuantity = 1,
                 Supplier = "MamaBank",
-                Price = 672000, 
+                Price = 672000,
                 Description = "Trượt điểm danh",
                 Status = new Random().Next(0, 100)
             };
@@ -87,14 +87,14 @@ namespace Shopping_Project.Controllers
 
         public IActionResult Details(Guid id)
         {
-            var products = productServices.GetProductById(id);  
-            return View(products);  
+            var products = productServices.GetProductById(id);
+            return View(products);
         }
         [HttpGet]
         public IActionResult Edit(Guid id)
         {
             Product p = productServices.GetProductById(id);
-            return View(p);  
+            return View(p);
         }
 
         public IActionResult Edit(Product p)
@@ -102,6 +102,23 @@ namespace Shopping_Project.Controllers
             if (productServices.UpdateProduct(p))
                 return RedirectToAction("ShowAllProducts");
             return BadRequest();
+        }
+
+        public IActionResult Test_ViewBag_ViewData()
+        {
+            var listBag = productServices.GetAllProducts();
+            ViewBag.Products = listBag;
+            // Với viewbag, ta không cần khởi tạo mà chỉ cần sử dụng
+            // trực tiếp như 1 thuộc tính static, trong trường hợp
+            // này, ViewBag.Products được sử dụng trực tiếp mà không
+            // cần quan tâm xem nó được tạo ra như thế nào.
+            // Dữ liệu ở viewbag là dữ liệu dynamic
+            var listData = productServices.GetAllProducts();
+            // ViewData dữ liệu sẽ ở dạng Generic, hoạt động theo cơ
+            // chế key-value
+            ViewData["Products"] = listData; // "Product" là key, listData là value
+            // ViewBag - ViewData chỉ dùng được trong phạm vi của View đó
+            return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
