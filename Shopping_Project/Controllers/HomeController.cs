@@ -158,13 +158,30 @@ namespace Shopping_Project.Controllers
             // Bước 1: Xác nhận sản phẩm theo ID
             var product = productServices.GetProductById(id);
             // Bước 2: Lấy ra danh sách các SP trong giỏ hàng
-
+            var products = SessionServices.GetObjFromSession(HttpContext.Session, "Cart");
             // Bước 3: Sau khi xác nhận thêm / Ghi đè vào session
+            if(products.Count == 0)
+            {
+                products.Add(product); // thêm sp vào list để ghi trực tiếp vào session
+                SessionServices.SetObjToSession(HttpContext.Session, "Cart", products);
+            }
+            else
+            {
+                if(SessionServices.CheckObjInList(id, products))
+                { // Kiểm tra xem sản phẩm có Id truyền vào đã nằm trong list ở Session chưa?
+                    return Content("Bình thường thì sẽ update số lượng nhưng ở đây chỉ thông báo thôi");
+                } else // trong trường hợp sản phẩm chưa nằm trong giỏ hàng thì thêm vào
+                {
+                    products.Add(product); // thêm sp vào list để ghi đè vào session
+                    SessionServices.SetObjToSession(HttpContext.Session, "Cart", products);
+                }
+            }
             return RedirectToAction("ShowCart");
         }
         public IActionResult ShowCart()
         {
-            return View();
+            var products = SessionServices.GetObjFromSession(HttpContext.Session, "Cart");
+            return View(products);
         }
 
 
