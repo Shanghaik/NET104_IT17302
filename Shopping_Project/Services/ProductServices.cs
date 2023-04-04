@@ -63,7 +63,8 @@ namespace Shopping_Project.Services
                 product.Name = p.Name;
                 product.Supplier = p.Supplier;
                 product.Price = p.Price;
-                context.Update(product); 
+                product.Description = p.Description;
+                context.Update(product);
                 context.SaveChanges();
                 return true;
             }

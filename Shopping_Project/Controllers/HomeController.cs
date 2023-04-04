@@ -176,7 +176,7 @@ namespace Shopping_Project.Controllers
                     SessionServices.SetObjToSession(HttpContext.Session, "Cart", products);
                 }
             }
-            return RedirectToAction("ShowCart");
+            return RedirectToAction("Index");
         }
         public IActionResult ShowCart()
         {
