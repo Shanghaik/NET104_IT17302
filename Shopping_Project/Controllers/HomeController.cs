@@ -74,8 +74,29 @@ namespace Shopping_Project.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(Product product) // Thực hiện thêm
+        // Các ảnh không nằm trong thư mục root khi chạy sẽ không hiển thị
+        // ra với các phương thức cơ bản => để hienr thị được ta cần phải
+        // thực hiện cách sau: Lấy đường dẫn ảnh => copy ảnh đó vào wwwroot
+        // sau đó thực hiện hiển thị như bình thường
+        public IActionResult Create(Product product, IFormFile imageFile) // Thực hiện thêm
         {
+            // Trong trường hợp chúng ta thực hiện với thuộc tính Description
+            // Thuộc tính này đang là string => Không thể thao tác trực tiếp
+            // với các file => Truyền thêm 1 tham số vào Action này
+            // Truyền thêm 1 tham số imageFile kiểu IFormFile
+            // Bước 1: Kiểm tra đường dãn tới ảnh được lấy từ form
+            if(imageFile != null && imageFile.Length > 0) // Không null không rỗng
+            {
+                // Thực hiện trỏ tới thư mục root để lát thực hiện việc copy
+                var path = Path.Combine(Directory.GetCurrentDirectory(),
+                    "wwwroot", "images", imageFile.FileName); // Bước 2
+                // Kết quả: aaa/wwwroot/images/xxx.jpg
+                var stream = new FileStream(path, FileMode.Create);
+                // Vì chúng ta thực hiện việc copy => Tạo mới => Create
+                imageFile.CopyTo(stream); // Copy ảnh chọn ở form vào wwwroot/images
+                // Gán lại giá trị cho thuộc tính Description => Bước 3
+                product.Description = imageFile.FileName; // Bước 4
+            }
             if (productServices.CreateProduct(product))
             {
                 return RedirectToAction("ShowAllProducts");
